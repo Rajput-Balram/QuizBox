@@ -3,7 +3,7 @@ package com.quizbox.model;
 import lombok.Data;
 
 @Data
-public class LoginDetail {
+public class Login {
 	private String email;
 	private String password;
 	

@@ -9,15 +9,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//import com.quizbox.model.Question;
+import com.quizbox.model.Login;
 import com.quizbox.model.Quizbox;
+import com.quizbox.model.User;
 import com.quizbox.service.QuizboxService;
+import com.quizbox.service.UserService;
 
 
 @RestController
-public class QuizboxController {
+public class Controller {
+	
+/***********************************"Quiz-Controller"**************************************************/	
 	@Autowired
 	QuizboxService quizService;
+	@Autowired
+	UserService userService;
 	
 	@PostMapping("/question")
 	public Quizbox addQuestion(@RequestBody Quizbox qn) {
@@ -39,5 +45,30 @@ public class QuizboxController {
 		return quizService.getAllQuestionByTopic(category);
 		
 	}
+	
+/*********************************"User-Controller"**************************************************/	
 
+	@GetMapping("/user")
+	public List<User> getUsers() {
+		return userService.getUsers();
+	}
+	
+	@PostMapping("/signup")
+	public String signUp(@RequestBody User user) {
+		
+		return userService.addUser(user);
+	}
+	
+	@PostMapping("/login")
+	public String logIn(@RequestBody Login login) {
+		return userService.logIn(login);
+	}
+	
+/*********************************"Take-Quiz-Controller"**************************************************/
+	
+	@PostMapping("/score-evaluation/{id}/{userName}")
+	public Object checkScore(@RequestBody List<Quizbox> test, @PathVariable int id,@PathVariable String userName) {
+		
+		return quizService.checkScore(test, id, userName);
+	}
 }
