@@ -2,6 +2,7 @@ package com.quizbox.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,14 @@ public class QuizboxService {
 	}
 
 	public List<Quizbox> getAllQuestionByTopic(String category) {
-		  
-		return quizdao.findAllByCategory(category);
+		 
+		List<Quizbox> totalQuestions = quizdao.findAllByCategory(category);
+		Collections.shuffle(totalQuestions);
+		List<Quizbox> selectedQuestions = new ArrayList<>();
+		for(int i=0;i<10;i++) {
+			selectedQuestions.add(totalQuestions.get(i));
+		}
+		return selectedQuestions;
 	}
 
 	public Result checkScore(List<Quizbox> test, int id, String userName) {
@@ -42,20 +49,25 @@ public class QuizboxService {
 		int score=0;
 		
 		for(Quizbox qn: test) {
-			if(qn.getChoice().equalsIgnoreCase(qn.getAnswer()))
+			if(qn.getChoice()!=null && qn.getChoice().equalsIgnoreCase(qn.getAnswer()))
 				score++;
 		}
 		
 		Quizbox question = test.get(0);
 		Date date = new Date(System.currentTimeMillis());
 		Result result = new Result();
-		result.setCategory(test.get(0).getCategory());
+		result.setCategory(question.getCategory());
 		result.setUserId(id);
 		result.setScore(score);
 		result.setDate(date);
 		result.setUserName(userName);
 		return resultDao.save(result);
 		 
+	}
+
+	public List<Result> getScoreCard(int id) {
+		// TODO Auto-generated method stub
+		return resultDao.findAllByUserId(id);
 	}
 
 }

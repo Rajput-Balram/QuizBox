@@ -32,14 +32,14 @@ public class UserService {
 		return userDao.findAll();
 	}
 
-	public String logIn(Login login) {
+	public Object logIn(Login login) {
 		 List<User> userList = new ArrayList<>();
 		 userList = userDao.findAll();
 		 for(User usr : userList) {
 			 if(usr.getEmail().equalsIgnoreCase(login.getEmail()) && usr.getPassword().equals(login.getPassword()))
-				 return "login successful {redirect to user home}";
+				 return usr;
 		 }
-		return "no account exist {redirect to sign up}";
+		return null;
 	}
 
 }
