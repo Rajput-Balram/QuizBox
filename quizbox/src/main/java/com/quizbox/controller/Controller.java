@@ -21,11 +21,13 @@ import com.quizbox.service.UserService;
 @RestController
 public class Controller {
 	
-/***********************************"Quiz-Controller"**************************************************/	
+	
 	@Autowired
 	QuizboxService quizService;
 	@Autowired
 	UserService userService;
+	
+/*********************************************"Quiz-Controller"**************************************************/
 	
 	@PostMapping("/question")
 	public Quizbox addQuestion(@RequestBody Quizbox qn) {
@@ -56,7 +58,7 @@ public class Controller {
 	}
 	
 	@PostMapping("/signup")
-	public String signUp(@RequestBody User user) {
+	public Object signUp(@RequestBody User user) {
 		
 		return userService.addUser(user);
 	}
@@ -77,5 +79,10 @@ public class Controller {
 	@GetMapping("/check-score/{id}")
 	public List<Result> getScoreCard(@PathVariable int id) {
 		return quizService.getScoreCard(id);
+	}
+	
+	@GetMapping("/check-score-all")
+	public List<Result> getAllScore(){
+		return quizService.getAllScore();
 	}
 }

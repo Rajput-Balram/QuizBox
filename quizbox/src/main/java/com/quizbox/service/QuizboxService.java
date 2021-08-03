@@ -36,8 +36,10 @@ public class QuizboxService {
 	public List<Quizbox> getAllQuestionByTopic(String category) {
 		 
 		List<Quizbox> totalQuestions = quizdao.findAllByCategory(category);
+		
 		Collections.shuffle(totalQuestions);
 		List<Quizbox> selectedQuestions = new ArrayList<>();
+		
 		for(int i=0;i<10;i++) {
 			selectedQuestions.add(totalQuestions.get(i));
 		}
@@ -66,8 +68,13 @@ public class QuizboxService {
 	}
 
 	public List<Result> getScoreCard(int id) {
-		// TODO Auto-generated method stub
+		 
 		return resultDao.findAllByUserId(id);
+	}
+
+	public List<Result> getAllScore() {
+		 
+		return resultDao.findAll();
 	}
 
 }

@@ -15,23 +15,25 @@ public class UserService {
 	@Autowired
 	UserDao userDao;
 	
-	
-	public String addUser(User user) {
+	//add new user(signUp)
+	public Object addUser(User user) {
 		List<User> userList = new ArrayList<>();
 		userList = userDao.findAll();
 		for(User usr : userList) {
 			if(usr.getEmail().equalsIgnoreCase(user.getEmail()))
-				return "Already Exist account {redirect to login}";
+				return null;
 		}
 		userDao.save(user);
-		return "successfull signup{redirect to login}";
+		return user;
 	}
 	
+	//get all user
 	public List<User> getUsers() {
 		 
 		return userDao.findAll();
 	}
-
+   
+	// login user
 	public Object logIn(Login login) {
 		 List<User> userList = new ArrayList<>();
 		 userList = userDao.findAll();
